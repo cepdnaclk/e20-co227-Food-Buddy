@@ -43,4 +43,15 @@ public class Product {
 
     @Column(nullable = false)
     private Timestamp valid_until;
+
+
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "shop_id", nullable = false)
+    private Shop shop;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
 }

@@ -1,5 +1,6 @@
 package com.foodBudy_v2.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,5 +34,12 @@ public class AppUser {
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_Id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private Set<Role> roles = new HashSet<>();
+
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    private Shop shop;
+
 }

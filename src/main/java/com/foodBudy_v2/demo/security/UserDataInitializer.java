@@ -58,7 +58,7 @@ public class UserDataInitializer {
             // users are assigned a set of rules, therefore create sets
 
             Set<Role> userRoles = Set.of(userRole);
-            Set<Role> sellerRoles = Set.of(sellerRole);
+            Set<Role> sellerRoles = Set.of(userRole, sellerRole);
             Set<Role> adminRoles = Set.of(userRole, sellerRole, adminRole);
 
             //******************************************************************
