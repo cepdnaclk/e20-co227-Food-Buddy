@@ -1,6 +1,7 @@
 package com.foodBudy_v2.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,9 @@ public class Address {
 
     @Column(nullable = false)
     private String addressLine2;
+
+//    @JsonIgnore
+//    @OneToOne(mappedBy = "address")
+//    private Shop shop;
 
 }

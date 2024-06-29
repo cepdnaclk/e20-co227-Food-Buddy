@@ -33,6 +33,8 @@ public class Shop {
     @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
+
+
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "owner_id")
     private AppUser owner;

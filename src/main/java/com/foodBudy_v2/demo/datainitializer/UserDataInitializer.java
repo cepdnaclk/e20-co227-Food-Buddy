@@ -1,4 +1,4 @@
-package com.foodBudy_v2.demo.security;
+package com.foodBudy_v2.demo.datainitializer;
 
 import com.foodBudy_v2.demo.model.AppRole;
 import com.foodBudy_v2.demo.model.AppUser;
@@ -32,7 +32,7 @@ public class UserDataInitializer {
         this.categoryRepository = categoryRepository;
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner initUserData(){
         return args -> {
             //************************************************************
@@ -67,7 +67,7 @@ public class UserDataInitializer {
                 AppUser user1 = new AppUser();
                 user1.setUsername("user1");
                 user1.setEmail("user1@gmail.com");
-                user1.setPassword(passwordEncoder.encode("upassword1"));
+                user1.setPassword(passwordEncoder.encode("password"));
                 //user1.setRoles(userRoles);
                 userRepository.save(user1);
             }
@@ -75,7 +75,7 @@ public class UserDataInitializer {
                 AppUser seller1 = new AppUser();
                 seller1.setUsername("seller1");
                 seller1.setEmail("seller1@gmail.com");
-                seller1.setPassword(passwordEncoder.encode("spassword1"));
+                seller1.setPassword(passwordEncoder.encode("password"));
                 //seller1.setRoles(sellerRoles);
                 userRepository.save(seller1);
             }
@@ -83,7 +83,7 @@ public class UserDataInitializer {
                 AppUser admin1 = new AppUser();
                 admin1.setUsername("admin1");
                 admin1.setEmail("admin1@gmail.com");
-                admin1.setPassword(passwordEncoder.encode("apassword1"));
+                admin1.setPassword(passwordEncoder.encode("password"));
                 //admin1.setRoles(adminRoles);
                 userRepository.save(admin1);
             }
