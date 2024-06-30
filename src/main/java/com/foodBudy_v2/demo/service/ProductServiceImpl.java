@@ -18,9 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -59,9 +59,20 @@ public class ProductServiceImpl implements ProductService{
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Category", "categoryId", categoryId));
 
-        Product product = convertDTOtoProduct(productDTO, category, shop);
+        //Product product = convertDTOtoProduct(productDTO, category, shop);
+        Product product = modelMapper.map(productDTO, Product.class);
+
+
+        // set the values which are not added by the mapper
+        product.setDiscountPercentage(
+                (int)((productDTO.getOriginalPrice() - productDTO.getDiscountedPrice())/ productDTO.getOriginalPrice() * 100)
+        );
+        product.setShop(shop);
+        product.setCategory(category);
 
         productRepository.save(product);
+
+
         shop.getProducts().add(product);
         shopRepository.save(shop);
 
@@ -150,32 +161,27 @@ public class ProductServiceImpl implements ProductService{
         return productResponse;
     }
 
+    @Override
+    public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
+        // get the product from DB
+        Product dbProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
 
-    private Product convertDTOtoProduct(ProductDTO productDTO, Category category, Shop shop) {
-        Product product = new Product();
+        // upload image to the server
+        // get the filename of updated image
+        String fileName = fileService.uploadImage(path, image);
 
-        product.setProductName(productDTO.getProductName());
-        product.setImage("default.png");
-        product.setDescription(productDTO.getDescription());
-        product.setOriginalPrice(productDTO.getOriginalPrice());
-        product.setDiscountedPrice(productDTO.getDiscountedPrice());
-        product.setDiscountPercentage(
-                (int)((productDTO.getOriginalPrice() - productDTO.getDiscountedPrice())/ productDTO.getOriginalPrice() * 100)
-        );
+        // update the new file name to the product
+        dbProduct.setImage(fileName);
 
-        product.setQuantity(productDTO.getQuantity());
+        // save the product
+        Product updatedProduct = productRepository.save(dbProduct);
 
-        product.setShop(shop);
+        // return DTO after mapping to DTO
+        return modelMapper.map(updatedProduct, ProductDTO.class);
 
-        product.setCategory(category);
-
-        // Get validUntil as a timestamp
-        //TODO:validate/exception
-        Timestamp validUntil = Timestamp.from(Instant.parse(productDTO.getValid_until()));
-        product.setValid_until(validUntil);
-
-        return product;
     }
+
 
     private ProductResponse createProductResponse(List<Product> products, Page<Product> productPage) {
         List<ProductDTO> productDTOS = products.stream()

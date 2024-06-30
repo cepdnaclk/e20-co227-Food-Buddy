@@ -38,12 +38,11 @@ public class ProductDTO {
 
     private Integer quantity;
 
-
     //TODO: validate the pattern
     @NotNull
     private String valid_until;
 
-    @JsonIgnore
-    private Category category;
+    private Long categoryId;
 
+    private Long shopId;
 }

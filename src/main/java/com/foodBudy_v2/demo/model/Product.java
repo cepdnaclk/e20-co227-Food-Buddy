@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -23,7 +24,6 @@ public class Product {
     @Column(nullable = false, length = 30)
     private String productName;
 
-    @Column(nullable = false)
     private String image;
 
     @Column(nullable = false)
@@ -54,4 +54,12 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+
+    public void setValid_until(String valid_until) {
+        this.valid_until = Timestamp.from(Instant.parse(valid_until));;
+    }
+
+    public void setValid_until(Timestamp valid_until) {
+        this.valid_until = valid_until;
+    }
 }
