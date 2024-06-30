@@ -20,7 +20,7 @@ public class Product {
     @Column(nullable = false)
     private Long productId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30)
     private String productName;
 
     @Column(nullable = false)

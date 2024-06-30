@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        Optional<Category> categoryWithSameName = categoryRepository.findByCategoryName(categoryDTO.getCategoryName());
+        Optional<Category> categoryWithSameName = categoryRepository.findByCategoryNameIgnoreCase(categoryDTO.getCategoryName());
 
         if (categoryWithSameName.isPresent()){
             throw new APIException("Category with the name " + categoryDTO.getCategoryName() + " already exists!");

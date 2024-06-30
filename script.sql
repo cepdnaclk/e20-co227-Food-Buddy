@@ -54,11 +54,11 @@ VALUES
 ('Gourmet Bites', 47.6062, -122.3321, 4, 4, '0774567890'),
 ('Fashion Forward', 30.2672, -97.7431, 5, 5, '0775678901');
 
-INSERT INTO category(category_name)
+INSERT INTO category(category_name, image)
 VALUES
-('caregory1'),
-('caregory2'),
-('caregory3');
+('caregory1', "default1.png"),
+('caregory2', "default2.png"),
+('caregory3', "default2.png");
 
 INSERT INTO product
 (category_id, shop_id, product_name, original_price, discounted_price, discount_percentage, quantity, valid_until, description, image)

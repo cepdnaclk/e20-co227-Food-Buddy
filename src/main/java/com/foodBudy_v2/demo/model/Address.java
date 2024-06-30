@@ -16,13 +16,13 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length =20)
     private String addressLine1;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length =50)
     private String addressLine3;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length =50)
     private String addressLine2;
 
 //    @JsonIgnore

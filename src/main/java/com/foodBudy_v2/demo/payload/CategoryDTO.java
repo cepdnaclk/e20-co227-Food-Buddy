@@ -2,15 +2,13 @@ package com.foodBudy_v2.demo.payload;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CategoryDTO {
     private Long categoryId;
 
@@ -19,4 +17,5 @@ public class CategoryDTO {
     private String categoryName;
 
     //TODO-categoryImage
+    private String image;
 }
