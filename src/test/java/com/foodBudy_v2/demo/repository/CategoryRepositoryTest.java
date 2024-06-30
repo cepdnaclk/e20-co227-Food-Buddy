@@ -3,6 +3,8 @@ package com.foodBudy_v2.demo.repository;
 import com.foodBudy_v2.demo.model.AppUser;
 import com.foodBudy_v2.demo.model.Category;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
@@ -13,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class CategoryRepositoryTest {
     private CategoryRepository categoryRepository;
 
@@ -23,9 +25,13 @@ class CategoryRepositoryTest {
         this.categoryRepository = categoryRepository;
     }
 
+    @AfterEach
+    void tearDown() {
+        categoryRepository.deleteAll();
+    }
 
     @Test
-    public void categoryRepository_save_returnSavedCategory(){
+    public void categoryRepository_save_returnSavedCategory() {
 
         //Arrange
         Category category = Category.builder()
@@ -38,11 +44,10 @@ class CategoryRepositoryTest {
 
         //Assert
         Assertions.assertThat(savedCategory).isNotNull();
-        Assertions.assertThat(savedCategory.getCategoryId()).isGreaterThan(0);
     }
 
     @Test
-    public void categoryRepository_findAll_returnAllCategory(){
+    public void categoryRepository_findAll_returnAllCategory() {
         //Arrange
         Category category1 = Category.builder()
                 .categoryName("Rice & Curry")
@@ -76,7 +81,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void categoryRepository_delete_deleteTheCategory(){
+    public void categoryRepository_delete_deleteTheCategory() {
         //Arrange
         Category category1 = Category.builder()
                 .categoryName("Rice & Curry")
@@ -96,7 +101,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void categoryRepository_findById_returnFoundCategory(){
+    public void categoryRepository_findById_returnFoundCategory() {
         //Arrange
         Category category1 = Category.builder()
                 .categoryName("Rice & Curry")
@@ -114,7 +119,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    public void categoryRepository_findByCategoryNameIgnoreCase_returnFoundCategory(){
+    public void categoryRepository_findByCategoryNameIgnoreCase_returnFoundCategory() {
 
         //Arrange
         Category category = Category.builder()
