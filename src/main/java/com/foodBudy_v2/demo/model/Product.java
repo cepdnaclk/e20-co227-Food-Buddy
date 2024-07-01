@@ -59,7 +59,7 @@ public class Product {
         this.valid_until = Timestamp.from(Instant.parse(valid_until));;
     }
 
-    public void setValid_until(Timestamp valid_until) {
-        this.valid_until = valid_until;
-    }
+//    public void setValid_until(Timestamp valid_until) {
+//        this.valid_until = valid_until;
+//    }
 }

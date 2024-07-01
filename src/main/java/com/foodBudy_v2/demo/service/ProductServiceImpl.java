@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,19 +32,21 @@ public class ProductServiceImpl implements ProductService{
     private ModelMapper modelMapper;
     private FileService fileService;
     private ShopRepository shopRepository;
-
     private AuthUtil authUtil;
+
+    private GeoService geoService;
 
     @Value("${product.image}")
     private String path;
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ModelMapper modelMapper, FileService fileService, ShopRepository shopRepository, AuthUtil authUtil) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ModelMapper modelMapper, FileService fileService, ShopRepository shopRepository, AuthUtil authUtil, GeoService geoService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
         this.fileService = fileService;
         this.shopRepository = shopRepository;
         this.authUtil = authUtil;
+        this.geoService = geoService;
     }
 
 
@@ -180,6 +183,39 @@ public class ProductServiceImpl implements ProductService{
         // return DTO after mapping to DTO
         return modelMapper.map(updatedProduct, ProductDTO.class);
 
+    }
+
+    @Override
+    public ProductResponse getNearbyProducts(double userLatitude, double userLongitude, double radius) {
+        // Get all the products from database
+        List<Product> products = productRepository.findAll();
+
+        List<Product> nearbyProducts = new ArrayList<>();
+
+        for (Product product : products){
+
+            Shop shop = product.getShop();
+
+            double shopLatitude = shop.getLatitude();
+            double shopLongitude = shop.getLongitude();
+
+            double distance = geoService.calculateDistance(
+                    userLatitude, userLongitude,
+                    shopLatitude, shopLongitude
+            );
+
+            if (distance <= radius){
+                nearbyProducts.add(product);
+            }
+        }
+        List<ProductDTO> nearbyProductDTOS = nearbyProducts.stream()
+                .map(product -> modelMapper.map(product, ProductDTO.class))
+                .toList();
+
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(nearbyProductDTOS);
+
+        return productResponse;
     }
 
 

@@ -17,4 +17,6 @@ public interface ProductService {
     ProductResponse searchByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 
     ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
+
+    ProductResponse getNearbyProducts(double latitude, double longitude, double radius);
 }

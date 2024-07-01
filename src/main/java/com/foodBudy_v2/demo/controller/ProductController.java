@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -99,6 +100,16 @@ public class ProductController {
     }
 
 
+    @GetMapping("public/products/nearby")
+    public ProductResponse getNearbyProducts(
+            @RequestParam double latitude,
+            @RequestParam double longitude,
+            @RequestParam double radius
+    ){
+        return productService.getNearbyProducts(latitude, longitude, radius);
+    }
+
+
     // update the product image
     @PreAuthorize("hasRole('ROLE_SELLER')")
     @PutMapping("/products/{productId}/image")
@@ -110,6 +121,8 @@ public class ProductController {
 
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
+
+
 
 
 }

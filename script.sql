@@ -39,20 +39,28 @@ VALUES
 
 INSERT INTO address (address_line1, address_line2, address_line3)
 VALUES
-('123 Main St', 'Apt 4B', 'Springfield IL 62704'),
-('456 Elm St', 'Suite 500', 'San Francisco CA 94107'),
-('789 Oak St', 'Building 2', 'New York NY 10001'),
-('101 Pine St', 'Floor 3', 'Seattle WA 98101'),
-('202 Maple St', 'Room 12', 'Austin TX 73301');
+('Colombo Road', 'Kiribathkumbura', 'peradeniya 20442'),
+('7H87+9P6', 'Embilmeegame', 'Pilimathalawa'),
+('No. 24', 'Sri Dalada Veediya', 'Kandy 20000'),
+('22 F', 'Mahiyangane', 'Padiyatalawa Hwy'),
+('454/1E', 'New Kandy Rd', '11650');
 
+
+-- my location = (7.261444320940439, 80.57678163526387)
+
+-- kapila bakers = (7.267722191447389, 80.57599708914255) , 0.738 km, ('Colombo Road', 'Kiribathkumbura', 'peradeniya 20442')
+-- Jinadasa Thalaguli = (7.265920921192404, 80.56427315377036), 1.47 km, ('7H87+9P6', 'Embilmeegame', 'Pilimathalawa')
+-- Delight bakers kandy = (7.293179992033037, 80.63675783930738), 7.5 km, ('No. 24', 'Sri Dalada Veediya', 'Kandy 20000')
+-- Salalihini hotel (7.284044469763235, 80.78349377788307), 22.94 km, ('Kandy', 'Mahiyangane', 'Padiyatalawa Hwy')
+-- Yaman (6.9499108184465905, 79.99332976063563) 73.11 km, ('454/1E', 'New Kandy Rd', '11650')
 
 INSERT INTO shop (shop_name, latitude, longitude, address_id, owner_id, phone_number)
 VALUES
-('Green Grocers', 37.7749, -122.4194, 1, 1, '0771234567'),
-('Tech Haven', 34.0522, -118.2437, 2, 2, '0772345678'),
-('Book Nook', 40.7128, -74.0060, 3, 3, '0773456789'),
-('Gourmet Bites', 47.6062, -122.3321, 4, 4, '0774567890'),
-('Fashion Forward', 30.2672, -97.7431, 5, 5, '0775678901');
+('kapila bakers', 7.267722191447389, 80.57599708914255, 1, 1, '0771234567'),
+('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678'),
+('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789'),
+('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890'),
+('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901');
 
 INSERT INTO category(category_name, image)
 VALUES
