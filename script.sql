@@ -6,9 +6,7 @@ VALUES
 ('ROLE_SELLER'),
 ('ROLE_ADMIN');
 
--- password - password1, password2.... 
-
-
+-- password - password
 INSERT INTO app_user(email, password, username)
 VALUES
 -- sellers
@@ -56,11 +54,11 @@ VALUES
 
 INSERT INTO shop (shop_name, latitude, longitude, address_id, owner_id, phone_number)
 VALUES
-('kapila bakers', 7.267722191447389, 80.57599708914255, 1, 1, '0771234567'),
-('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678'),
-('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789'),
-('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890'),
-('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901');
+('kapila bakers', 7.267722191447389, 80.57599708914255, 1, 1, '0771234567'), -- 0.738 km
+('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678'), -- 1.47 km
+('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789'), -- 7.5 km
+('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890'), -- 22.94 km
+('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901'); -- 73.11 km
 
 INSERT INTO category(category_name, image)
 VALUES
