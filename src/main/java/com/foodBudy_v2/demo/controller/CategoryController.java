@@ -2,12 +2,18 @@ package com.foodBudy_v2.demo.controller;
 
 import com.foodBudy_v2.demo.payload.CategoryDTO;
 import com.foodBudy_v2.demo.payload.CategoryResponse;
+import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api")
@@ -69,6 +75,29 @@ public class CategoryController {
         CategoryDTO updatedCategoryDTO = categoryService.updateCategory(categoryDTO, categoryId);
 
         return new ResponseEntity<>(updatedCategoryDTO, HttpStatus.OK);
+
+    }
+
+    // update the category image
+    @PutMapping("/admin/categories/{categoryId}/image")
+    public ResponseEntity<CategoryDTO> updateCategoryImage(
+            @PathVariable Long categoryId, @RequestParam("image") MultipartFile image)
+            throws IOException {
+
+        CategoryDTO updatedCategoryDTO =  categoryService.updateCategoryImage(categoryId, image);
+
+        return new ResponseEntity<>(updatedCategoryDTO, HttpStatus.OK);
+    }
+
+    // download the category image
+    @GetMapping("/public/categories/images/{fileName}")
+    public ResponseEntity<?> getCategoryImage(@PathVariable String fileName) throws IOException {
+
+        byte [] photoData = categoryService.downloadProductImage(fileName);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(photoData);
 
     }
 

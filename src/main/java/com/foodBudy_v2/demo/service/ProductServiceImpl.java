@@ -39,6 +39,9 @@ public class ProductServiceImpl implements ProductService{
     @Value("${product.image}")
     private String path;
 
+    @Value("${default.image}")
+    private String defaultImage;
+
     public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ModelMapper modelMapper, FileService fileService, ShopRepository shopRepository, AuthUtil authUtil, GeoService geoService) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
@@ -72,6 +75,7 @@ public class ProductServiceImpl implements ProductService{
         );
         product.setShop(shop);
         product.setCategory(category);
+        product.setImage(defaultImage);
 
         productRepository.save(product);
 
@@ -183,6 +187,11 @@ public class ProductServiceImpl implements ProductService{
         // return DTO after mapping to DTO
         return modelMapper.map(updatedProduct, ProductDTO.class);
 
+    }
+
+    @Override
+    public byte[] downloadProductImage(String fileName) throws IOException {
+        return fileService.downloadPhotoFromFileSystem(path, fileName);
     }
 
     @Override

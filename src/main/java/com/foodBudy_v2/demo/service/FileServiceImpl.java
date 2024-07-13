@@ -39,4 +39,15 @@ public class FileServiceImpl implements FileService{
         //return the file name
         return fileName;
     }
+
+    @Override
+    public byte[] downloadPhotoFromFileSystem(String path, String fileName) throws IOException {
+
+        String filePath = path + File.separator + fileName;
+
+        byte[] photo = Files.readAllBytes(new File(filePath).toPath());
+
+        return photo;
+    }
+
 }

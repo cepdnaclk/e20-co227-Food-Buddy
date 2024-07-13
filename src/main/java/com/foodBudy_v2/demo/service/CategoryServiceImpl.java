@@ -3,17 +3,18 @@ package com.foodBudy_v2.demo.service;
 import com.foodBudy_v2.demo.exception.APIException;
 import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.model.Category;
+import com.foodBudy_v2.demo.model.Product;
 import com.foodBudy_v2.demo.payload.CategoryDTO;
 import com.foodBudy_v2.demo.payload.CategoryResponse;
+import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +22,19 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService{
     private CategoryRepository categoryRepository;
     private ModelMapper modelMapper;
+    private FileService fileService;
+
+    @Value("${category.image}")
+    private String path;
+
+    @Value("${default.image}")
+    private String defaultImage;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, FileService fileService) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+        this.fileService = fileService;
     }
     @Override
     public CategoryResponse getAllCategories() {
@@ -54,6 +63,7 @@ public class CategoryServiceImpl implements CategoryService{
 
         Category category = modelMapper.map(categoryDTO, Category.class);
         //category.setCategoryId(null);
+        category.setImage(defaultImage);
 
         Category savedCategory =  categoryRepository.save(category);
 
@@ -88,6 +98,31 @@ public class CategoryServiceImpl implements CategoryService{
 
         throw new ResourceNotFoundException("Category", "categoryId", categoryId);
 
+    }
+
+    @Override
+    public CategoryDTO updateCategoryImage(Long categoryId, MultipartFile image) throws IOException {
+        // get the category from DB
+        Category dbCategory = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category", "categoryId", categoryId));
+
+        // upload image to the server
+        // get the filename of updated image
+        String fileName = fileService.uploadImage(path, image);
+
+        // update the new file name to the product
+        dbCategory.setImage(fileName);
+
+        // save the category
+        Category updatedCategory = categoryRepository.save(dbCategory);
+
+        // return DTO after mapping to DTO
+        return modelMapper.map(updatedCategory, CategoryDTO.class);
+    }
+
+    @Override
+    public byte[] downloadProductImage(String fileName) throws IOException {
+        return fileService.downloadPhotoFromFileSystem(path, fileName);
     }
 
 

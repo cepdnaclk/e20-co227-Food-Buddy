@@ -18,5 +18,7 @@ public interface ProductService {
 
     ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
 
+    byte[] downloadProductImage(String fileName) throws IOException;
+
     ProductResponse getNearbyProducts(double latitude, double longitude, double radius);
 }

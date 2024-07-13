@@ -4,10 +4,7 @@ import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.model.Category;
 import com.foodBudy_v2.demo.payload.CategoryDTO;
 import com.foodBudy_v2.demo.repository.CategoryRepository;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
@@ -20,8 +17,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,6 +27,9 @@ class CategoryServiceTest {
     @Mock
     private CategoryRepository categoryRepository;
 
+    @Mock
+    private FileService fileService;
+
     private CategoryService categoryService;
 
     private CategoryDTO categoryDTO;
@@ -39,7 +37,7 @@ class CategoryServiceTest {
 
     @BeforeEach
     void setUp() {
-        categoryService = new CategoryServiceImpl(categoryRepository, modelMapper);
+        categoryService = new CategoryServiceImpl(categoryRepository, modelMapper, fileService);
 
         categoryDTO = CategoryDTO.builder()
                 .categoryName("category1")

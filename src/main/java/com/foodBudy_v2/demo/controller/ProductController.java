@@ -8,6 +8,7 @@ import com.foodBudy_v2.demo.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -99,8 +100,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.FOUND);
     }
 
-
-    @GetMapping("public/products/nearby")
+    // get nearby products
+    @GetMapping("/public/products/nearby")
     public ProductResponse getNearbyProducts(
             @RequestParam double latitude,
             @RequestParam double longitude,
@@ -122,6 +123,18 @@ public class ProductController {
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
+
+    // download the product image
+    @GetMapping("/public/products/images/{fileName}")
+    public ResponseEntity<?> getProductImage(@PathVariable String fileName) throws IOException {
+
+        byte [] photoData = productService.downloadProductImage(fileName);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(photoData);
+
+    }
 
 
 
