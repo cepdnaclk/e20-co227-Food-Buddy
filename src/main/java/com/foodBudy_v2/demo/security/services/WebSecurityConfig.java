@@ -4,6 +4,7 @@ import com.foodBudy_v2.demo.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Configuration
 @EnableWebSecurity
@@ -67,10 +70,21 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
+
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .requestMatchers("/error/**").permitAll()
+
                                 .requestMatchers("api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/public/**").permitAll()
+
+                                .requestMatchers(HttpMethod.PUT, "api/shops").hasRole("SELLER")
+                                .requestMatchers(HttpMethod.DELETE, "api/shops").hasRole("SELLER")
+                                .requestMatchers(HttpMethod.GET, "api/shops/myShop").hasRole("SELLER")
+
+                                .requestMatchers(HttpMethod.POST, "api/products/**").hasRole("SELLER")
+                                .requestMatchers(HttpMethod.PUT, "api/products/**").hasRole("SELLER")
+                                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("SELLER")
+
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/swagger-ui.html").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()

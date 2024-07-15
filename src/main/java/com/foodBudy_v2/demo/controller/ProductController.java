@@ -2,6 +2,7 @@ package com.foodBudy_v2.demo.controller;
 
 import com.foodBudy_v2.demo.config.AppConstants;
 import com.foodBudy_v2.demo.exception.APIException;
+import com.foodBudy_v2.demo.payload.APIResponse;
 import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ProductResponse;
 import com.foodBudy_v2.demo.service.ProductService;
@@ -28,7 +29,6 @@ public class ProductController {
     }
 
     // create a product
-    @PreAuthorize("hasRole('ROLE_SELLER')")
     @PostMapping ("/products/categories/{categoryId}")
     public ResponseEntity<ProductDTO> addProduct(
             @Valid @RequestBody ProductDTO productDTO,
@@ -102,17 +102,35 @@ public class ProductController {
 
     // get nearby products
     @GetMapping("/public/products/nearby")
-    public ProductResponse getNearbyProducts(
+    public ResponseEntity<ProductResponse> getNearbyProducts(
             @RequestParam double latitude,
             @RequestParam double longitude,
             @RequestParam double radius
     ){
-        return productService.getNearbyProducts(latitude, longitude, radius);
+        ProductResponse productResponse = productService.getNearbyProducts(latitude, longitude, radius);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+    // get products by shopId
+    @GetMapping("/public/products/shops/{shopId}")
+    public ResponseEntity<ProductResponse> getProductsByShop(
+            @PathVariable Long shopId,
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER)
+            Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE)
+            Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = AppConstants.SORT_PRODUCTS_BY)
+            String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = AppConstants.SORT_DIRECTION)
+            String sortOrder
+
+    ){
+        ProductResponse productResponse = productService.getProductsByShop(shopId, pageNumber, pageSize, sortBy, sortOrder);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
 
     // update the product image
-    @PreAuthorize("hasRole('ROLE_SELLER')")
     @PutMapping("/products/{productId}/image")
     public ResponseEntity<ProductDTO> updateProductImage(
             @PathVariable Long productId, @RequestParam("image") MultipartFile image)
@@ -134,6 +152,23 @@ public class ProductController {
                 .contentType(MediaType.valueOf("image/png"))
                 .body(photoData);
 
+    }
+
+    @DeleteMapping("/products/{productId}")
+    public ResponseEntity<APIResponse> deleteProduct(@PathVariable Long productId){
+        productService.deleteProduct(productId);
+        return new ResponseEntity<>(new APIResponse("Deleted successfully", true), HttpStatus.OK);
+
+    }
+
+    @PutMapping("/products/{productId}")
+    public ResponseEntity<ProductDTO> updateProduct(
+            @Valid @RequestBody ProductDTO productDTO,
+            @PathVariable Long productId){
+
+        ProductDTO updatedProduct = productService.updateProduct(productDTO, productId);
+
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
 

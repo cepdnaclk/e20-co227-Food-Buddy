@@ -1,10 +1,7 @@
 package com.foodBudy_v2.demo.service;
 
 import com.foodBudy_v2.demo.exception.APIException;
-import com.foodBudy_v2.demo.model.AppRole;
-import com.foodBudy_v2.demo.model.AppUser;
-import com.foodBudy_v2.demo.model.Role;
-import com.foodBudy_v2.demo.model.Shop;
+import com.foodBudy_v2.demo.model.*;
 import com.foodBudy_v2.demo.payload.ShopDTO;
 import com.foodBudy_v2.demo.repository.AddressRepository;
 import com.foodBudy_v2.demo.repository.RoleRepository;
@@ -13,6 +10,9 @@ import com.foodBudy_v2.demo.repository.UserRepository;
 import com.foodBudy_v2.demo.utils.AuthUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShopServiceImpl implements ShopService{
@@ -25,6 +25,8 @@ public class ShopServiceImpl implements ShopService{
 
     private RoleRepository roleRepository;
     private UserRepository userRepository;
+
+
 
     public ShopServiceImpl(ShopRepository shopRepository, AuthUtil authUtil, AddressRepository addressRepository, ModelMapper modelMapper, RoleRepository roleRepository, UserRepository userRepository) {
         this.shopRepository = shopRepository;
@@ -45,9 +47,15 @@ public class ShopServiceImpl implements ShopService{
             throw new APIException("User already has a shop");
         }
 
+        // check whether there is a shop with the same name
+        if(shopRepository.existsByShopNameIgnoreCase(shopDTO.getShopName())){
+            throw new APIException("Shop name is already taken");
+        }
+
         Shop shop = modelMapper.map(shopDTO, Shop.class);
 
         shop.setOwner(user);
+
         shopRepository.save(shop);
 
         user.setShop(shop);
@@ -60,6 +68,78 @@ public class ShopServiceImpl implements ShopService{
 
     }
 
+    @Override
+    public ShopDTO getShop() {
+        // get the authenticated user
+        AppUser owner = authUtil.loggedInUser();
+
+        Shop shop = shopRepository.findByOwner(owner)
+                .orElseThrow(() -> new APIException("Shop not found"));
+
+        ShopDTO shopDTO = modelMapper.map(shop, ShopDTO.class);
+
+        return shopDTO;
+    }
+
+    @Override
+    public List<ShopDTO> getAllShops() {
+        List<Shop> shops = shopRepository.findAll();
+
+        List<ShopDTO> shopDTOs = shops.stream()
+                .map((shop)-> modelMapper.map(shop, ShopDTO.class)
+                )
+                .toList();
+
+        return shopDTOs;
+    }
+
+    @Override
+    public ShopDTO updateShop(ShopDTO shopDTO) {
+        // get the authenticated user
+        AppUser owner = authUtil.loggedInUser();
+
+        // find the shop
+        Shop shop = shopRepository.findByOwner(owner)
+                .orElseThrow(()-> new APIException("Shop not found"));
+
+        if(!shop.getShopId().equals(shopDTO.getShopId())){
+            throw new APIException("Invalid shopId");
+        }
+
+        shop.setShopName(shopDTO.getShopName());
+        shop.setAddress(shopDTO.getAddress());
+        shop.setLatitude(shopDTO.getLatitude());
+        shop.setLongitude(shopDTO.getLongitude());
+        shop.setPhoneNumber(shopDTO.getPhoneNumber());
+
+        shopRepository.save(shop);
+
+        ShopDTO updatedShopDTO = modelMapper.map(shop, ShopDTO.class);
+
+        return updatedShopDTO;
+    }
+
+    @Override
+    public void deleteShop() {
+        // get the authenticated user
+        AppUser owner = authUtil.loggedInUser();
+
+        // find the shop
+        Shop shop = shopRepository.findByOwner(owner)
+                .orElseThrow(()-> new APIException("Shop not found"));
+
+        Role sellerRole = roleRepository.findByRoleName(AppRole.ROLE_SELLER)
+                .orElseThrow(()-> new APIException("Role not found"));
+
+        owner.getRoles().remove(sellerRole);
+        owner.setShop(null);
+        userRepository.save(owner);
+
+        shopRepository.delete(shop);
+
+
+    }
+
     private void updateUserRoles(AppUser user) {
         Role sellerRole = roleRepository.findByRoleName(AppRole.ROLE_SELLER)
                 .orElseGet(() -> {
@@ -69,4 +149,15 @@ public class ShopServiceImpl implements ShopService{
 
         user.getRoles().add(sellerRole);
     }
+
+    private void removeSellerRole(AppUser user) {
+        Role sellerRole = roleRepository.findByRoleName(AppRole.ROLE_SELLER)
+                        .orElseThrow(()-> new APIException("Role not found"));
+
+        user.getRoles().remove(sellerRole);
+
+        userRepository.save(user);
+    }
+
+
 }

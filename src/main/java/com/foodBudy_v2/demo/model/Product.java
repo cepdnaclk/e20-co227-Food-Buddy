@@ -1,6 +1,7 @@
 package com.foodBudy_v2.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -38,13 +40,10 @@ public class Product {
     @Column(nullable = false)
     private Integer discountPercentage;
 
-
     private Integer quantity;
 
     @Column(nullable = false)
-    private Timestamp valid_until;
-
-
+    private LocalDateTime valid_until;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "shop_id", nullable = false)
@@ -55,9 +54,9 @@ public class Product {
     private Category category;
 
 
-    public void setValid_until(String valid_until) {
-        this.valid_until = Timestamp.from(Instant.parse(valid_until));;
-    }
+//    public void setValid_until(String valid_until) {
+//        this.valid_until = Timestamp.from(Instant.parse(valid_until));;
+//    }
 
 //    public void setValid_until(Timestamp valid_until) {
 //        this.valid_until = valid_until;

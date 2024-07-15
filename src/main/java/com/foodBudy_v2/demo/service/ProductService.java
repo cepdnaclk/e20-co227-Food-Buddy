@@ -2,7 +2,6 @@ package com.foodBudy_v2.demo.service;
 
 import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ProductResponse;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,4 +20,10 @@ public interface ProductService {
     byte[] downloadProductImage(String fileName) throws IOException;
 
     ProductResponse getNearbyProducts(double latitude, double longitude, double radius);
+
+    ProductResponse getProductsByShop(Long shopId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+
+    void deleteProduct(Long productId);
+
+    ProductDTO updateProduct(ProductDTO productDTO, Long productId);
 }

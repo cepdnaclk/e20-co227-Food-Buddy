@@ -19,7 +19,7 @@ public class Shop {
     private Long shopId;
 
     @Column(nullable = false, unique = true, length = 30)
-    private String ShopName;
+    private String shopName;
 
     @Column(nullable = false)
     private Double latitude;
@@ -36,7 +36,7 @@ public class Shop {
 
 
 
-    @OneToOne(orphanRemoval = true)
+    @OneToOne
     @JoinColumn(name = "owner_id")
     private AppUser owner;
 

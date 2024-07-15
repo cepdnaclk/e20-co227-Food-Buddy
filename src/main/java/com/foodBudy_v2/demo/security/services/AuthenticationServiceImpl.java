@@ -75,7 +75,7 @@ public class AuthenticationServiceImpl implements AuthenticationService{
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        UserInfoResponse response = new UserInfoResponse(userDetails.getId(), jwtToken, userDetails.getUsername(), roles);
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(), jwtToken, userDetails.getEmail(), userDetails.getUsername(), roles);
         return response;
 
     }

@@ -10,4 +10,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     Boolean existsByOwner(AppUser user);
 
     Optional<Shop> findByOwner(AppUser user);
+
+    Boolean existsByShopNameIgnoreCase(String shopName);
 }

@@ -1,5 +1,6 @@
 package com.foodBudy_v2.demo.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.foodBudy_v2.demo.model.Category;
 import jakarta.validation.constraints.*;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -40,7 +43,8 @@ public class ProductDTO {
 
     //TODO: validate the pattern
     @NotNull
-    private String valid_until;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime valid_until;
 
     private Long categoryId;
 

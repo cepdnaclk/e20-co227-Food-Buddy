@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 public class UserInfoResponse {
     private Long id;
     private String jwtToken;
-
+    private String email;
     private String username;
     private List<String> roles;
 
 
 
-    public UserInfoResponse(Long id, String username, List<String> roles) {
-        this.id = id;
-        this.username = username;
-        this.roles = roles;
-    }
+//    public UserInfoResponse(Long id, String username, List<String> roles) {
+//        this.id = id;
+//        this.username = username;
+//        this.roles = roles;
+//    }
 
     public void setRoles(Set<Role> roles) {
         this.roles =roles.stream()

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -225,6 +226,83 @@ public class ProductServiceImpl implements ProductService{
         productResponse.setContent(nearbyProductDTOS);
 
         return productResponse;
+    }
+
+    @Override
+    public ProductResponse getProductsByShop(Long shopId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
+
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new ResourceNotFoundException("Shop", "shopId", shopId));
+
+        Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        // create a Pageable object by including the page details
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
+
+        // call findAllByShopId by passing the Pageable as an argument
+        // return value is type Page
+        Page<Product> productPage = productRepository.findAllByShopId(shopId, pageDetails);
+
+        // get the list of categories from the category page
+        List<Product> products = productPage.getContent();
+
+        ProductResponse productResponse = createProductResponse(products, productPage);
+
+        return productResponse;
+    }
+
+    @Override
+    public void deleteProduct(Long productId) {
+        Shop shop = shopRepository.findByOwner(authUtil.loggedInUser())
+                .orElseThrow(() -> new APIException("user does not have a shop"));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()->new ResourceNotFoundException("Product", "productId", productId));
+
+        if(shop.getProducts().contains(product)){
+            shop.getProducts().remove(product);
+            productRepository.delete(product);
+        }
+        else {
+            throw new APIException("Invalid productId");
+        }
+    }
+
+    @Override
+    public ProductDTO updateProduct(ProductDTO productDTO, Long productId) {
+        Shop shop = shopRepository.findByOwner(authUtil.loggedInUser())
+                .orElseThrow(() -> new APIException("user does not have a shop"));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()->new ResourceNotFoundException("Product", "productId", productId));
+
+        // get the category
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Category", "categoryId", productDTO.getCategoryId()));
+
+        if(shop.getProducts().contains(product)){
+            product.setProductName(productDTO.getProductName());
+            product.setDescription(productDTO.getDescription());
+            product.setOriginalPrice(productDTO.getOriginalPrice());
+            product.setDiscountedPrice(productDTO.getDiscountedPrice());
+            product.setDiscountPercentage(
+                    (int)((productDTO.getOriginalPrice() - productDTO.getDiscountedPrice())/ productDTO.getOriginalPrice() * 100)
+            );
+            product.setQuantity(productDTO.getQuantity());
+            product.setValid_until(productDTO.getValid_until());
+            product.setCategory(category);
+
+            Product updatedProduct = productRepository.save(product);
+
+            return modelMapper.map(updatedProduct, ProductDTO.class);
+
+        }
+        else {
+            throw new APIException("Invalid productId");
+        }
     }
 
 

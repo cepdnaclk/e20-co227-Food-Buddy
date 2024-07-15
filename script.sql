@@ -41,8 +41,8 @@ VALUES
 ('7H87+9P6', 'Embilmeegame', 'Pilimathalawa'),
 ('No. 24', 'Sri Dalada Veediya', 'Kandy 20000'),
 ('22 F', 'Mahiyangane', 'Padiyatalawa Hwy'),
-('454/1E', 'New Kandy Rd', '11650');
-
+('454/1E', 'New Kandy Rd', '11650'),
+('22 F', 'abc road', 'Kandy');
 
 -- my location = (7.261444320940439, 80.57678163526387)
 
@@ -58,7 +58,8 @@ VALUES
 ('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678'), -- 1.47 km
 ('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789'), -- 7.5 km
 ('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890'), -- 22.94 km
-('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901'); -- 73.11 km
+('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901'), -- 73.11 km
+('admin shop',6.9499108184465905, 79.99332976063563, 6, 10, '0775678901');
 
 INSERT INTO category(category_name, image)
 VALUES
@@ -87,4 +88,4 @@ VALUES
 (4, 4, 'Plain Dosai', 300, 200, 33, 13, '2024-07-31 23:59:59.000000', "Experience the authentic taste of South India with our crispy, golden Plain Dosai.", 'plain-dosai.jpg'),
 (4, 4, 'Naan', 500, 300, 40, 6, '2024-07-31 23:59:59.000000', "Soft and fluffy Naan, a perfect accompaniment to any curry or dish.", 'naan.jpg'),
 
-(3, 4, 'Chicken Burger', 980, 700, 28, 8, '2024-07-31 23:59:59.000000', "Sink your teeth into our juicy Chicken Burger, a mouthwatering delight with every bite.", 'chicken-burger.jpg');
+(5, 4, 'Chicken Burger', 980, 700, 28, 8, '2024-07-31 23:59:59.000000', "Sink your teeth into our juicy Chicken Burger, a mouthwatering delight with every bite.", 'chicken-burger.jpg');

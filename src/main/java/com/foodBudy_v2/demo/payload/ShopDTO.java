@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,5 +43,7 @@ public class ShopDTO {
     private Address address;
 
     private Long ownerId;
+
+
 
 }
