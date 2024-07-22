@@ -95,12 +95,19 @@ public class ShopServiceImpl implements ShopService{
 
     @Override
     public ShopDTO updateShop(ShopDTO shopDTO) {
+
         // get the authenticated user
         AppUser owner = authUtil.loggedInUser();
 
         // find the shop
-        Shop shop = shopRepository.findByOwner(owner)
-                .orElseThrow(()-> new APIException("Shop not found"));
+//        Shop shop = shopRepository.findByOwner(owner)
+////                .orElseThrow(()-> new APIException("Shop not found"));
+        Shop shop = owner.getShop();
+
+        if (!shop.getShopName().equals(shopDTO.getShopName())
+        && shopRepository.existsByShopNameIgnoreCase(shopDTO.getShopName())){
+            throw new APIException("Shop name is already taken");
+        }
 
         if(!shop.getShopId().equals(shopDTO.getShopId())){
             throw new APIException("Invalid shopId");

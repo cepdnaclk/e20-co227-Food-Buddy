@@ -59,8 +59,11 @@ class CategoryServiceTest {
         // Arrange
         when(categoryRepository.findByCategoryNameIgnoreCase(categoryDTO.getCategoryName()))
                 .thenReturn(Optional.empty());
+
         when(modelMapper.map(categoryDTO, Category.class)).thenReturn(category);
+
         when(categoryRepository.save(category)).thenReturn(category);
+
         when(modelMapper.map(category, CategoryDTO.class)).thenReturn(categoryDTO);
 
         // Act

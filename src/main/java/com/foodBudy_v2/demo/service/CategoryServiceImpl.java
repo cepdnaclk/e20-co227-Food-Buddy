@@ -89,9 +89,9 @@ public class CategoryServiceImpl implements CategoryService{
         Optional<Category> opCategory = categoryRepository.findById(categoryId);
 
         if (opCategory.isPresent()){
-            changedCategoryDTO.setCategoryId(categoryId);
-            Category changedCategory = modelMapper.map(changedCategoryDTO, Category.class);
-            Category updatedCategory = categoryRepository.save(changedCategory);
+            Category category = opCategory.get();
+            category.setCategoryName(changedCategoryDTO.getCategoryName());
+            Category updatedCategory = categoryRepository.save(category);
 
             return modelMapper.map(updatedCategory, CategoryDTO.class);
         }

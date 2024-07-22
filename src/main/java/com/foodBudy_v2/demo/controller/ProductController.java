@@ -97,7 +97,7 @@ public class ProductController {
 
         ProductResponse productResponse = productService.searchByKeyword(keyword, pageNumber, pageSize, sortBy, sortOrder);
 
-        return new ResponseEntity<>(productResponse, HttpStatus.FOUND);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
     // get nearby products

@@ -2,6 +2,7 @@ package com.foodBudy_v2.demo.service;
 
 import com.foodBudy_v2.demo.exception.APIException;
 import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
+import com.foodBudy_v2.demo.model.AppUser;
 import com.foodBudy_v2.demo.model.Category;
 import com.foodBudy_v2.demo.model.Product;
 import com.foodBudy_v2.demo.model.Shop;
@@ -160,9 +161,9 @@ public class ProductServiceImpl implements ProductService{
         // get the list of products from the product page
         List<Product> products = productPage.getContent();
 
-        if (products.isEmpty()){
-            throw new APIException("Products not found with keyword: "+ keyword);
-        }
+//        if (products.isEmpty()){
+//            throw new APIException("Products not found with keyword: "+ keyword);
+//        }
 
         ProductResponse productResponse = createProductResponse(products, productPage);
 
@@ -171,6 +172,19 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException {
+        AppUser owner = authUtil.loggedInUser();
+
+        Shop shop = shopRepository.findByOwner(owner).get();
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()->new ResourceNotFoundException("Product", "productId", productId));
+
+        List<Product> products = shop.getProducts();
+
+        if (!products.contains(product)){
+            throw new APIException("Invalid productId");
+        }
+        
         // get the product from DB
         Product dbProduct = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
