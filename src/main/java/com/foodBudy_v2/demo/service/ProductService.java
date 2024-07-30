@@ -26,4 +26,6 @@ public interface ProductService {
     void deleteProduct(Long productId);
 
     ProductDTO updateProduct(ProductDTO productDTO, Long productId);
+
+    ProductDTO getProductById(Long productId);
 }

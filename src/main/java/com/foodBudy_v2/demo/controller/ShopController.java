@@ -2,6 +2,7 @@ package com.foodBudy_v2.demo.controller;
 
 import com.foodBudy_v2.demo.model.Shop;
 import com.foodBudy_v2.demo.payload.APIResponse;
+import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ShopDTO;
 import com.foodBudy_v2.demo.service.ShopService;
 import jakarta.validation.Valid;
@@ -39,8 +40,15 @@ public class ShopController {
         return  new ResponseEntity<>(myShopDTO, HttpStatus.OK);
     }
 
+    // get shop by shopId
+    @GetMapping ("public/shops/{shopId}")
+    public ResponseEntity<ShopDTO> getShopById(@PathVariable Long shopId){
+        ShopDTO shopDTO = shopService.getShopById(shopId);
+        return new ResponseEntity<>(shopDTO, HttpStatus.OK);
+    }
+
     // get all shop
-    @GetMapping("/shops")
+    @GetMapping("/public/shops")
     public ResponseEntity<List<ShopDTO>> getAllShops(){
         List<ShopDTO> shopDTOs = shopService.getAllShops();
         return  new ResponseEntity<>(shopDTOs, HttpStatus.OK);

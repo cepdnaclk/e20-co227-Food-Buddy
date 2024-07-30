@@ -2,6 +2,7 @@ package com.foodBudy_v2.demo.controller;
 
 import com.foodBudy_v2.demo.config.AppConstants;
 import com.foodBudy_v2.demo.exception.APIException;
+import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.payload.APIResponse;
 import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ProductResponse;
@@ -61,6 +62,14 @@ public class ProductController {
 
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
+
+    // get product by productId
+    @GetMapping ("public/products/{productId}")
+    public ResponseEntity<ProductDTO> getProductById(@PathVariable Long productId){
+        ProductDTO productDTO = productService.getProductById(productId);
+        return new ResponseEntity<>(productDTO, HttpStatus.OK);
+    }
+
 
     // get products by category
     @GetMapping("/public/categories/{categoryId}/products")

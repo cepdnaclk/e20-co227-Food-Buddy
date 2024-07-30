@@ -1,7 +1,9 @@
 package com.foodBudy_v2.demo.service;
 
 import com.foodBudy_v2.demo.exception.APIException;
+import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.model.*;
+import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ShopDTO;
 import com.foodBudy_v2.demo.repository.AddressRepository;
 import com.foodBudy_v2.demo.repository.RoleRepository;
@@ -145,6 +147,14 @@ public class ShopServiceImpl implements ShopService{
         shopRepository.delete(shop);
 
 
+    }
+
+    @Override
+    public ShopDTO getShopById(Long shopId) {
+        Shop shop = shopRepository.findById(shopId)
+                .orElseThrow(()-> new ResourceNotFoundException("Shop", "shopId", shopId));
+
+        return modelMapper.map(shop, ShopDTO.class);
     }
 
     private void updateUserRoles(AppUser user) {

@@ -319,6 +319,14 @@ public class ProductServiceImpl implements ProductService{
         }
     }
 
+    @Override
+    public ProductDTO getProductById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(()-> new ResourceNotFoundException("Product", "productId", productId));
+
+        return modelMapper.map(product, ProductDTO.class);
+    }
+
 
     private ProductResponse createProductResponse(List<Product> products, Page<Product> productPage) {
         List<ProductDTO> productDTOS = products.stream()

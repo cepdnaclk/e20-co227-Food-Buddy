@@ -49,4 +49,6 @@ public class ProductDTO {
     private Long categoryId;
 
     private Long shopId;
+
+    private String shopName;
 }

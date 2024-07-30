@@ -64,10 +64,10 @@ VALUES
 INSERT INTO category(category_name, image)
 VALUES
 ('Rice & Curry', "category-rice-and-curry.jpg"),
-('Chinese', "category-chinese.png"),
+('Chinese', "category-chinese.jpg"),
 ('Bakery', "category-bakery.jpg"),
 ('Indian', "category-indian.png"),
-('Fast Food', "category-fast-food.png"),
+('Fast Food', "category-fast-food.jpg"),
 ('Desserts', "category-dessert.jpg"),
 ('Pizza', "category-pizza.jpeg"),
 ('Indian', "category-indian.png");
