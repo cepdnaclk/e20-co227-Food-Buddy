@@ -3,7 +3,6 @@ package com.foodBudy_v2.demo.service;
 import com.foodBudy_v2.demo.exception.APIException;
 import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.model.*;
-import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.payload.ShopDTO;
 import com.foodBudy_v2.demo.repository.AddressRepository;
 import com.foodBudy_v2.demo.repository.RoleRepository;
@@ -14,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShopServiceImpl implements ShopService{
@@ -88,6 +86,19 @@ public class ShopServiceImpl implements ShopService{
         List<Shop> shops = shopRepository.findAll();
 
         List<ShopDTO> shopDTOs = shops.stream()
+                .map((shop)-> modelMapper.map(shop, ShopDTO.class)
+                )
+                .toList();
+
+        return shopDTOs;
+    }
+
+    @Override
+    public List<ShopDTO> getAllActiveShops() {
+        List<Shop> shops = shopRepository.findAll();
+
+        List<ShopDTO> shopDTOs = shops.stream()
+                .filter((shop)-> !shop.getProducts().isEmpty())
                 .map((shop)-> modelMapper.map(shop, ShopDTO.class)
                 )
                 .toList();

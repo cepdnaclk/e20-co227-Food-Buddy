@@ -53,6 +53,12 @@ public class ShopController {
         List<ShopDTO> shopDTOs = shopService.getAllShops();
         return  new ResponseEntity<>(shopDTOs, HttpStatus.OK);
     }
+    // get all active shop
+    @GetMapping("/public/shops/active")
+    public ResponseEntity<List<ShopDTO>> getAllActiveShops(){
+        List<ShopDTO> shopDTOs = shopService.getAllActiveShops();
+        return  new ResponseEntity<>(shopDTOs, HttpStatus.OK);
+    }
 
     // update shop
     @PutMapping("/shops")

@@ -11,6 +11,8 @@ public interface ShopService {
 
     List<ShopDTO> getAllShops();
 
+    List<ShopDTO> getAllActiveShops();
+
     ShopDTO updateShop(ShopDTO shopDTO);
 
     void deleteShop();
