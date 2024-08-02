@@ -21,6 +21,8 @@ public class Shop {
     @Column(nullable = false, unique = true, length = 30)
     private String shopName;
 
+    private String image;
+
     @Column(nullable = false)
     private Double latitude;
 

@@ -4,14 +4,17 @@ import com.foodBudy_v2.demo.exception.APIException;
 import com.foodBudy_v2.demo.exception.ResourceNotFoundException;
 import com.foodBudy_v2.demo.model.*;
 import com.foodBudy_v2.demo.payload.ShopDTO;
-import com.foodBudy_v2.demo.repository.AddressRepository;
 import com.foodBudy_v2.demo.repository.RoleRepository;
 import com.foodBudy_v2.demo.repository.ShopRepository;
 import com.foodBudy_v2.demo.repository.UserRepository;
 import com.foodBudy_v2.demo.utils.AuthUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,18 +23,24 @@ public class ShopServiceImpl implements ShopService{
     private ShopRepository shopRepository;
     private AuthUtil authUtil;
 
-    private AddressRepository addressRepository;
+    private FileService fileService;
     private ModelMapper modelMapper;
 
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
+    @Value("${shop.image.path}")
+    private String path;
+
+    @Value("${default.image}")
+    private String defaultImage;
 
 
-    public ShopServiceImpl(ShopRepository shopRepository, AuthUtil authUtil, AddressRepository addressRepository, ModelMapper modelMapper, RoleRepository roleRepository, UserRepository userRepository) {
+    @Autowired
+    public ShopServiceImpl(ShopRepository shopRepository, AuthUtil authUtil, FileService fileService, ModelMapper modelMapper, RoleRepository roleRepository, UserRepository userRepository) {
         this.shopRepository = shopRepository;
         this.authUtil = authUtil;
-        this.addressRepository = addressRepository;
+        this.fileService = fileService;
         this.modelMapper = modelMapper;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -55,6 +64,7 @@ public class ShopServiceImpl implements ShopService{
         Shop shop = modelMapper.map(shopDTO, Shop.class);
 
         shop.setOwner(user);
+        shop.setImage(defaultImage);
 
         shopRepository.save(shop);
 
@@ -64,6 +74,7 @@ public class ShopServiceImpl implements ShopService{
 
         shopDTO.setShopId(shop.getShopId());
         shopDTO.setOwnerId(user.getUserId());
+        shopDTO.setImage(defaultImage);
         return shopDTO;
 
     }
@@ -166,6 +177,30 @@ public class ShopServiceImpl implements ShopService{
                 .orElseThrow(()-> new ResourceNotFoundException("Shop", "shopId", shopId));
 
         return modelMapper.map(shop, ShopDTO.class);
+    }
+
+    @Override
+    public ShopDTO updateShopImage(Long shopId, MultipartFile image) throws IOException {
+        AppUser owner = authUtil.loggedInUser();
+
+        Shop shop = shopRepository.findByOwner(owner).get();
+
+        // upload image to the server
+        // get the filename of updated image
+        String fileName = fileService.uploadImage(path, image);
+
+        // update the new file name to the product
+        shop.setImage(fileName);
+
+        shopRepository.save(shop);
+
+        // return DTO after mapping to DTO
+        return modelMapper.map(shop, ShopDTO.class);
+    }
+
+    @Override
+    public byte[] downloadShopImage(String fileName) throws IOException {
+        return fileService.downloadPhotoFromFileSystem(path, fileName);
     }
 
     private void updateUserRoles(AppUser user) {

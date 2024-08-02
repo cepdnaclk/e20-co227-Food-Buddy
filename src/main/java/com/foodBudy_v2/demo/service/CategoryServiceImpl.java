@@ -24,7 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
     private ModelMapper modelMapper;
     private FileService fileService;
 
-    @Value("${category.image}")
+    @Value("${category.image.path}")
     private String path;
 
     @Value("${default.image}")

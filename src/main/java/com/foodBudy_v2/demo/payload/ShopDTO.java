@@ -44,6 +44,5 @@ public class ShopDTO {
 
     private Long ownerId;
 
-
-
+    private String image;
 }

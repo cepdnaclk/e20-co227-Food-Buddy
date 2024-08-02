@@ -52,14 +52,14 @@ VALUES
 -- Salalihini hotel (7.284044469763235, 80.78349377788307), 22.94 km, ('Kandy', 'Mahiyangane', 'Padiyatalawa Hwy')
 -- Yaman (6.9499108184465905, 79.99332976063563) 73.11 km, ('454/1E', 'New Kandy Rd', '11650')
 
-INSERT INTO shop (shop_name, latitude, longitude, address_id, owner_id, phone_number)
+INSERT INTO shop (shop_name, latitude, longitude, address_id, owner_id, phone_number, image)
 VALUES
-('kapila bakers', 7.267722191447389, 80.57599708914255, 1, 1, '0771234567'), -- 0.738 km
-('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678'), -- 1.47 km
-('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789'), -- 7.5 km
-('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890'), -- 22.94 km
-('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901'), -- 73.11 km
-('admin shop',6.9499108184465905, 79.99332976063563, 6, 10, '0775678901');
+('kapila bakers', 7.267722191447389, 80.57599708914255, 1, 1, '0771234567','kapila_bakers.png'), -- 0.738 km
+('Jinadasa Thalaguli', 7.265920921192404, 80.56427315377036, 2, 2, '0772345678', 'jinadasa_thalaguli.png'), -- 1.47 km
+('Delight bakers kandy', 7.293179992033037, 80.63675783930738, 3, 3, '0773456789', 'delight.png'), -- 7.5 km
+('Salalihini hotel', 7.284044469763235, 80.78349377788307, 4, 4, '0774567890', 'salalihini.png'), -- 22.94 km
+('Yaman Bakers',6.9499108184465905, 79.99332976063563, 5, 5, '0775678901', 'default.jpg'), -- 73.11 km
+('admin shop',6.9499108184465905, 79.99332976063563, 6, 10, '0775678901', 'default.jpg');
 
 INSERT INTO category(category_name, image)
 VALUES
@@ -69,8 +69,7 @@ VALUES
 ('Indian', "category-indian.png"),
 ('Fast Food', "category-fast-food.jpg"),
 ('Desserts', "category-dessert.jpg"),
-('Pizza', "category-pizza.jpeg"),
-('Indian', "category-indian.png");
+('Pizza', "category-pizza.jpeg");
 
 INSERT INTO product
 (category_id, shop_id, product_name, original_price, discounted_price, discount_percentage, quantity, valid_until, description, image)

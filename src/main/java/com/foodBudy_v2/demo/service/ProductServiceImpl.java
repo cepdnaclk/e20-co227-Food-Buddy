@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService{
 
     private GeoService geoService;
 
-    @Value("${product.image}")
+    @Value("${product.image.path}")
     private String path;
 
     @Value("${default.image}")
