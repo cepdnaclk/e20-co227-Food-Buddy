@@ -117,7 +117,14 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         user.setRoles(roles);
         userRepository.save(user);
 
-        return modelMapper.map(user, UserInfoResponse.class);
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setPassword(signupRequest.getPassword());
+        loginRequest.setUsername(signupRequest.getUsername());
+
+        return authenticateUser(loginRequest);
+
+        // Log in
+
 
     }
 
