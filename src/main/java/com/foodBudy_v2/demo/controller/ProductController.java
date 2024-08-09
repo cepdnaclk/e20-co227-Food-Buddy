@@ -164,7 +164,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{productId}")
-    public ResponseEntity<APIResponse> deleteProduct(@PathVariable Long productId){
+    public ResponseEntity<APIResponse> deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
         return new ResponseEntity<>(new APIResponse("Deleted successfully", true), HttpStatus.OK);
 

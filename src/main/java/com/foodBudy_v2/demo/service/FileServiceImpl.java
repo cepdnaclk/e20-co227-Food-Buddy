@@ -50,4 +50,25 @@ public class FileServiceImpl implements FileService{
         return photo;
     }
 
+    @Override
+    public void deleteImage(String path, String fileName){
+        // Construct the full file path
+        String filePath = path + File.separator + fileName;
+
+        // Create a File object for the file to be deleted
+        File file = new File(filePath);
+
+        // Check if the file exists
+        if (file.exists()) {
+            // Attempt to delete the file
+            if (!file.delete()) {
+                System.out.println("***********************************Failed to delete the image");
+
+            }
+        } else {
+            System.out.println("*********************Image not found");
+
+        }
+    }
+
 }

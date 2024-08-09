@@ -176,18 +176,17 @@ public class ProductServiceImpl implements ProductService{
 
         Shop shop = shopRepository.findByOwner(owner).get();
 
-        Product product = productRepository.findById(productId)
+        Product dbProduct = productRepository.findById(productId)
                 .orElseThrow(()->new ResourceNotFoundException("Product", "productId", productId));
 
         List<Product> products = shop.getProducts();
 
-        if (!products.contains(product)){
+        if (!products.contains(dbProduct)){
             throw new APIException("Invalid productId");
         }
-        
-        // get the product from DB
-        Product dbProduct = productRepository.findById(productId)
-                .orElseThrow(() -> new ResourceNotFoundException("Product", "productId", productId));
+
+        // delete the current image
+        fileService.deleteImage(path, dbProduct.getImage());
 
         // upload image to the server
         // get the filename of updated image
@@ -208,6 +207,8 @@ public class ProductServiceImpl implements ProductService{
     public byte[] downloadProductImage(String fileName) throws IOException {
         return fileService.downloadPhotoFromFileSystem(path, fileName);
     }
+
+
 
     @Override
     public ProductResponse getNearbyProducts(double userLatitude, double userLongitude, double radius) {
@@ -275,8 +276,11 @@ public class ProductServiceImpl implements ProductService{
         Product product = productRepository.findById(productId)
                 .orElseThrow(()->new ResourceNotFoundException("Product", "productId", productId));
 
+
+
         if(shop.getProducts().contains(product)){
             shop.getProducts().remove(product);
+            fileService.deleteImage(path, product.getImage());
             productRepository.delete(product);
         }
         else {
