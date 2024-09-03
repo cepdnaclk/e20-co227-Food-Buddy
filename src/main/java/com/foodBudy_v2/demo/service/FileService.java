@@ -8,4 +8,6 @@ public interface FileService {
     String uploadImage(String path, MultipartFile file) throws IOException;
 
     byte[] downloadPhotoFromFileSystem(String path, String fileName) throws IOException;
+
+    void deleteImage(String path, String fileName);
 }

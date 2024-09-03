@@ -51,4 +51,6 @@ public class ProductDTO {
     private Long shopId;
 
     private String shopName;
+
+    private String shopPhoneNumber;
 }
