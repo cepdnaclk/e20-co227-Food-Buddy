@@ -90,6 +90,8 @@ public class CategoryServiceImpl implements CategoryService{
 
         if (opCategory.isPresent()){
             Category category = opCategory.get();
+
+            // update
             category.setCategoryName(changedCategoryDTO.getCategoryName());
             Category updatedCategory = categoryRepository.save(category);
 
