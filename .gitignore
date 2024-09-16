@@ -32,3 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 er.png
+*.jpg
+
+.env
+secrets.properties
+application-demo.properties
