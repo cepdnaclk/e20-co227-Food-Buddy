@@ -35,7 +35,6 @@ public class ProductServiceImpl implements ProductService{
     private FileService fileService;
     private ShopRepository shopRepository;
     private AuthUtil authUtil;
-
     private GeoService geoService;
 
     @Value("${product.image.path}")
