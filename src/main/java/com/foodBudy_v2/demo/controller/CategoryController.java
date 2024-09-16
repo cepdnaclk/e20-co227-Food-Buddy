@@ -4,6 +4,7 @@ import com.foodBudy_v2.demo.payload.CategoryDTO;
 import com.foodBudy_v2.demo.payload.CategoryResponse;
 import com.foodBudy_v2.demo.payload.ProductDTO;
 import com.foodBudy_v2.demo.service.CategoryService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ public class CategoryController {
      * Get all categories
      * @return CategoryResponse
      */
+
     @GetMapping("/public/categories")
     public ResponseEntity<CategoryResponse> getAllCategories(){
         CategoryResponse categoryResponse = categoryService.getAllCategories();
