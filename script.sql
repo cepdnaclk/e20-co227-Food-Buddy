@@ -63,13 +63,17 @@ VALUES
 
 INSERT INTO category(category_name, image)
 VALUES
-('Rice & Curry', "category-rice-and-curry.jpg"),
-('Chinese', "category-chinese.jpg"),
-('Bakery', "category-bakery.jpg"),
-('Indian', "category-indian.png"),
-('Fast Food', "category-fast-food.jpg"),
-('Desserts', "category-dessert.jpg"),
-('Pizza', "category-pizza.jpeg");
+-- 1
+('Rice & Curry', "category-rice-and-curry.jpg"), -- 1
+('Bakery', "category-bakery.jpg"), -- 2
+('Vegetables', "category-vege.jpeg"), -- 3
+('Fruits', "fruits-category.jpg"), -- 4
+('Beverages', "category-beverages.jpg"), -- 5
+('Indian', "category-indian.png"), -- 6
+('Desserts', "category-dessert.jpg"), -- 7
+('Fast Food', "category-fast-food.jpg"), -- 8
+('Chinese', "category-chinese.jpg"), -- 9
+('other', ""); -- 10
 
 INSERT INTO product
 (category_id, shop_id, product_name, original_price, discounted_price, discount_percentage, quantity, valid_until, description, image)
@@ -78,13 +82,14 @@ VALUES
 (1, 1, 'Vegetable Rice & Curry', 250, 180, 28, 12, '2024-07-31 23:59:59.000000', "Enjoy a healthy and delicious Vegetable Rice & Curry, packed with fresh, vibrant veggies.", 'vegetable-rice-and-curry.jpg'),
 (1, 2, 'Egg Rice & Curry', 300, 200, 33, 8, '2024-07-31 23:59:59.000000', "Savor our rich and flavorful Egg Rice & Curry, a perfect blend of spices and hearty goodness.", 'egg-rice-and-curry-2.jpg'),
 
-(2, 2, 'Chinese Set Menu - Vege', 650, 500, 23, 15, '2024-07-31 23:59:59.000000', "Indulge in our Chinese Set Menu - Vege, a delightful combination of traditional flavors and vegetarian delight.", 'chinese-set menu-vege.png'),
+(9, 2, 'Chinese Set Menu - Vege', 650, 500, 23, 15, '2024-07-31 23:59:59.000000', "Indulge in our Chinese Set Menu - Vege, a delightful combination of traditional flavors and vegetarian delight.", 'chinese-set menu-vege.png'),
 
-(3, 3, 'Bread', 150, 80, 47, 18, '2024-07-31 23:59:59.000000', "Freshly baked Bread, perfect for any meal or a quick snack.", 'bread.jpeg'),
-(3, 3, 'Fish Bun', 100, 70, 30, 15, '2024-07-31 23:59:59.000000', "Taste the ocean with our savory Fish Bun, filled with a deliciously seasoned fish filling.", 'fish-bun.jpg'),
-(3, 4, 'Vegetable Bun', 80, 50, 38, 16, '2024-07-31 23:59:59.000000', "Our Vegetable Bun is a wholesome treat, bursting with fresh, flavorful veggies.", 'vegetable-bun.jpg'),
+(2, 3, 'Bread', 150, 80, 47, 18, '2024-07-31 23:59:59.000000', "Freshly baked Bread, perfect for any meal or a quick snack.", 'bread.jpeg'),
+(2, 3, 'Fish Bun', 100, 70, 30, 15, '2024-07-31 23:59:59.000000', "Taste the ocean with our savory Fish Bun, filled with a deliciously seasoned fish filling.", 'fish-bun.jpg'),
+(2, 4, 'Vegetable Bun', 80, 50, 38, 16, '2024-07-31 23:59:59.000000', "Our Vegetable Bun is a wholesome treat, bursting with fresh, flavorful veggies.", 'vegetable-bun.jpg'),
 
-(4, 4, 'Plain Dosai', 300, 200, 33, 13, '2024-07-31 23:59:59.000000', "Experience the authentic taste of South India with our crispy, golden Plain Dosai.", 'plain-dosai.jpg'),
-(4, 4, 'Naan', 500, 300, 40, 6, '2024-07-31 23:59:59.000000', "Soft and fluffy Naan, a perfect accompaniment to any curry or dish.", 'naan.jpg'),
+(6, 4, 'Plain Dosai', 300, 200, 33, 13, '2024-07-31 23:59:59.000000', "Experience the authentic taste of South India with our crispy, golden Plain Dosai.", 'plain-dosai.jpg'),
+(6, 4, 'Naan', 500, 300, 40, 6, '2024-07-31 23:59:59.000000', "Soft and fluffy Naan, a perfect accompaniment to any curry or dish.", 'naan.jpg')
 
-(5, 4, 'Chicken Burger', 980, 700, 28, 8, '2024-07-31 23:59:59.000000', "Sink your teeth into our juicy Chicken Burger, a mouthwatering delight with every bite.", 'chicken-burger.jpg');
+-- (5, 4, 'Chicken Burger', 980, 700, 28, 8, '2024-07-31 23:59:59.000000', "Sink your teeth into our juicy Chicken Burger, a mouthwatering delight with every bite.", 'chicken-burger.jpg')
+;
